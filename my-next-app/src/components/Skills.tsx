@@ -72,16 +72,16 @@ const skills = [
   export default function Skills() {
     return (
       <section id="skills" className="py-16 bg-black">
-        <h2 className="text-4xl font-bold text-center mb-10 text-white">SKILLS</h2>
+        <h2 className="text-4xl font-bold text-center mb-10 text-white font-heading">SKILLS</h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {skills.map((cat, i) => (
             <div
               key={i}
-              className="rounded-xl p-6 border-2 border-transparent bg-gradient-to-br from-pink-500/10 via-blue-500/10 to-purple-500/10"
+              className="rounded-xl p-6 border-2 border-transparent bg-gradient-to-br from-pink-500/10 via-blue-500/10 to-purple-500/10 transition-all duration-300 hover:-translate-y-1 hover:border-pink-400"
               style={{ borderImage: 'linear-gradient(90deg, #ec4899, #3b82f6, #a78bfa) 1' }}
             >
-              <h3 className="text-lg font-bold text-white mb-2">{cat.title}</h3>
-              <ul className="list-disc list-inside text-gray-200">
+              <h3 className="text-lg font-bold text-white mb-2 font-heading">{cat.title}</h3>
+              <ul className="list-disc list-inside text-gray-200 font-body">
                 {cat.items.map((item, j) => (
                   <li key={j}>{item}</li>
                 ))}
