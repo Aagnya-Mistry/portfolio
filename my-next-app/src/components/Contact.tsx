@@ -22,7 +22,7 @@ export default function Contact() {
     setError("");
     console.log('Sending form data:', form);
     try {
-      await axios.post("http://localhost:5000/api/contact", form);
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/contact`, form);
       setSuccess("Message sent successfully!");
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err: unknown) {
