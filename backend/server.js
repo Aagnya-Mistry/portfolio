@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,15 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
+// Nodemailer transporter setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
 // POST endpoint for contact form
 app.post('/api/contact', async (req, res) => {
   try {
@@ -40,7 +50,24 @@ app.post('/api/contact', async (req, res) => {
     const contact = new Contact({ name, email, phone, message });
     await contact.save();
     console.log('Saved contact document:', contact);
-    res.status(201).json({ message: 'Contact form submitted successfully.' });
+
+    // Send structured email
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_TO,
+      subject: 'New Contact Form Submission',
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+        <p><em>Received at: ${new Date().toLocaleString()}</em></p>
+      `,
+    };
+    await transporter.sendMail(mailOptions);
+    res.status(201).json({ message: 'Contact form submitted and email sent successfully.' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error.' });
