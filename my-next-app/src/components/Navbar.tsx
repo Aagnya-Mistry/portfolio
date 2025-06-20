@@ -18,7 +18,7 @@ export default function Navbar() {
       <div className="fixed top-6 right-10 z-50 text-white text-3xl font-bold font-code">aAM_</div>
       <nav className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 bg-black/80 backdrop-blur rounded-3xl shadow-lg px-6 py-3 flex justify-center items-center w-fit mx-auto border border-white/10">
         <ul className="flex gap-6 group">
-          {navItems.map((item, idx) => (
+          {navItems.map((item) => (
             <li key={item.label} className="relative">
               <a
                 href={item.href}
